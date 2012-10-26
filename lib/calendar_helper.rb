@@ -82,21 +82,23 @@ module CalendarHelper
     month_names = (!defined?(I18n) || I18n.t("date.month_names").include?("missing")) ? Date::MONTHNAMES.dup : I18n.t("date.month_names")
 
     defaults = {
-      :table_id            => "calendar-#{options[:year]}-#{"%02d" % options[:month]}",
-      :table_class         => 'calendar',
-      :month_name_class    => 'monthName',
-      :other_month_class   => 'otherMonth',
-      :day_name_class      => 'dayName',
-      :day_class           => 'day',
-      :abbrev              => true,
-      :first_day_of_week   => 0,
-      :accessible          => false,
-      :show_today          => true,
-      :previous_month_text => nil,
-      :next_month_text     => nil,
-      :month_header        => true,
-      :calendar_title      => month_names[options[:month]],
-      :summary             => "Calendar for #{month_names[options[:month]]} #{options[:year]}"
+      :table_id             => "calendar-#{options[:year]}-#{"%02d" % options[:month]}",
+      :table_class          => 'calendar',
+      :month_name_class     => 'monthName',
+      :other_month_class    => 'otherMonth',
+      :day_name_class       => 'dayName',
+      :day_class            => 'day',
+      :abbrev               => true,
+      :first_day_of_week    => 0,
+      :accessible           => false,
+      :show_today           => true,
+      :previous_month_text  => nil,
+      :next_month_text      => nil,
+      :month_link_colspan   => 2,
+      :month_header_colspan => nil,
+      :month_header         => true,
+      :calendar_title       => month_names[options[:month]],
+      :summary              => "Calendar for #{month_names[options[:month]]} #{options[:year]}"
     }
     options = defaults.merge options
 
@@ -120,13 +122,13 @@ module CalendarHelper
     if (options[:month_header])
       cal << %(<tr>)
       if options[:previous_month_text] or options[:next_month_text]
-        cal << %(<th colspan="2">#{options[:previous_month_text]}</th>)
-        colspan=3
+        cal << %(<th colspan="#{options[:month_link_colspan]}">#{options[:previous_month_text]}</th>)
+        colspan= options[:month_header_colspan] || 3
       else
-        colspan=7
+        colspan= options[:month_header_colspan] || 7
       end
       cal << %(<th colspan="#{colspan}" class="#{options[:month_name_class]}">#{options[:calendar_title]}</th>)
-      cal << %(<th colspan="2">#{options[:next_month_text]}</th>) if options[:next_month_text]
+      cal << %(<th colspan="#{options[:month_link_colspan]}">#{options[:next_month_text]}</th>) if options[:next_month_text]
       cal << %(</tr>)
     end
 
