@@ -97,6 +97,8 @@ module CalendarHelper
       :month_link_colspan   => 2,
       :month_header_colspan => nil,
       :month_header         => true,
+      :extra_header_text    => nil,
+      :extra_header_colspan => 2,
       :calendar_title       => month_names[options[:month]],
       :summary              => "Calendar for #{month_names[options[:month]]} #{options[:year]}"
     }
@@ -129,6 +131,7 @@ module CalendarHelper
       end
       cal << %(<th colspan="#{colspan}" class="#{options[:month_name_class]}">#{options[:calendar_title]}</th>)
       cal << %(<th colspan="#{options[:month_link_colspan]}">#{options[:next_month_text]}</th>) if options[:next_month_text]
+      cal << %(<th colspan="#{options[:extra_header_colspan]}">#{options[:extra_header_text]}</th>) if options[:extra_header_text]
       cal << %(</tr>)
     end
 
